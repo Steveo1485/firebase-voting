@@ -33,6 +33,13 @@ commentListRef.on('child_added', function(newCommentSnapshot, prevComment){
   handleCommentAdded(newCommentSnapshot,prevComment)
 })
 
+var changedCallback = function (commentSnapshot, prevComment) {
+  handleCommentRemoved(commentSnapshot)
+  handleCommentAdded(commentSnapshot, prevComment)
+}
+commentListRef.on('child_moved', changedCallback)
+commentListRef.on('child_changed', changedCallback)
+
 //update firebase upon enter
 $("form#commentForm").keypress(function(event){
   if (event.keyCode == 13){
